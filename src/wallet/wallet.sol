@@ -1,10 +1,12 @@
-// SPDX-License-Identifier: GPL-3.0pragma solidity ^0.8.20;
+// SPDX-License-Identifier: GPL-3.0
+pragma solidity ^0.8.20;
 
 ///@title
 contract Wallet {
     address payable public owner;
-    uint counter=0;
-    bool public isGabay;
+    uint256 public counter=0;
+
+
     mapping(address=>bool) public gabaim;
     
     constructor() {
@@ -22,6 +24,7 @@ contract Wallet {
     }
      function addGabay (address gabay) public isOwner{
         require(counter<3,"too many gabaies");
+        require(gabaim[gabay]==false,"this is already a Gabay");
         gabaim[gabay]=true;
         counter++;   
     }
