@@ -1,5 +1,4 @@
-// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.6;
+forge debug --target-contract Add ./src/add/add.sol \
 
 contract Add {
     constructor() {}
