@@ -3,8 +3,8 @@
 // https://solidity-by-example.org/defi/staking-rewards/
 
 pragma solidity ^0.8.20;
-import "..../new-project/src/MyToken";
-import "@hack/like/IERC20.sol";
+import "../../new-project/src/MyToken.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 contract StakingRewards {
      IERC20 public immutable stakingToken;
      MyToken public immutable rewardsToken;
@@ -18,9 +18,9 @@ contract StakingRewards {
     uint public totalSupply;
     mapping (address => uint) public startDate;
 
-    mapping (address=> MyToken)public rewards;
+    mapping (address=> uint)public rewards;
 
-}
+
 
     constructor(address _stakingToken, address _rewardToken) {
         owner = msg.sender;
@@ -31,106 +31,46 @@ contract StakingRewards {
         require(msg.sender == owner, "not authorized");
         _;
     }
-    modifier updateReward(address _account) {
-        rewardPerTokenStored = rewardPerToken();
-        updatedAt = lastTimeRewardApplicable();
-        if (_account != address(0)) {
-            rewards[_account] = earned(_account);
-            userReward[_account] = rewardPerTokenStored;
-        }
-        _;
-    }
-    
-    //   function rewardPerToken() public view returns (uint) {
-    //    if(totalSupply==0){
-    //     return rewardPerTokenStored;
-    //    }                  
-    //     return
-    //         (rewardRate * (lastTimeRewardApplicable() - updatedAt) * 1e18) /
-    //         totalSupply;
-    // }
-
-
-
-
-
-
-       function deposit(uint256 _amount) external (){
+    function deposit(uint256 _amount) external {
         require(_amount>0,"amount=0"); 
         stakingToken.transferFrom(msg.sender,address(this),_amount);
         totalSupply += _amount;
         uint256 precentOfDeposit=_amount*100/totalSupply;
         deposits[msg.sender]+=precentOfDeposit; 
+        startDate[msg.sender]=block.timestamp;
         getReward(_amount);
 
     }
 
     function getReward(uint _amount) external {
        rewardsToken. transferFrom(address(this),msg.sender._amount);
-       rewards[msg.sender]+=
+       rewards[msg.sender]+=_amount;
+    }
+
+    modifier is7Days(){
+        today=block.timestamp;
+        require(today-startDate[msg.sender]>=7,"the reward duration is not finished yet");
+        _;
     }
 
 
-    function withdraw(MyToken rewardsToken) external onlyOwner{
-        require(_rewardToken > 0, "amount = 0");
-        balanceOf[msg.sender] -= _amount;
-        totalSupply -= _amount;
-        stakingToken.transfer(msg.sender, _amount);
+    function withdraw(uint amountRewardToken) external onlyOwner is7Days{
+        require(deposits[msg.sender]>=amountRewardToken,"you dont have enough tokens to withdraw");
+        require(amountRewardToken> 0, "amount = 0");
+        uint finalRewards=deposits[msg.sender]/rewards[msg.sender]*amountRewardToken*totalSupply;
+        deposits[msg.sender]-=amountRewardToken;
+        stakingToken.transferFrom(address(this),msg.sender,finalRewards);
+        totalSupply-=finalRewards;
     }
-    function earned(address _account) public view returns (uint) {
-        return
-            ((balanceOf[_account] *
-                (rewardPerToken() - userReward[_account])) / 1e18) +
-            rewards[_account];
-    }
-    function getReward() external updateReward(msg.sender) {
-        uint reward = rewards[msg.sender];
-        if (reward > 0) {
-            rewards[msg.sender] = 0;
-            rewardsToken.transfer(msg.sender, reward);
-        }
-    }
-    function setRewardsDuration(uint _duration) external onlyOwner {
-        require(finishAt < block.timestamp, "reward duration not finished");
-        duration = _duration;
-    }
-    function notifyRewardAmount(
-        uint _amount
-    ) external onlyOwner updateReward(address(0)) {
-        if (block.timestamp >= finishAt) {
-            rewardRate = _amount / duration;
-        } else {
-            uint remainingRewards = (finishAt - block.timestamp) * rewardRate;
-            rewardRate = (_amount + remainingRewards) / duration;
-        }
-        require(rewardRate > 0, "reward rate = 0");
-        require(
-            rewardRate * duration <= rewardsToken.balanceOf(address(this)),
-            "reward amount > balance"
-        );
-        finishAt = block.timestamp + duration;
-        updatedAt = block.timestamp;
-    }
-    function _min(uint x, uint y) private pure returns (uint) {
-        return x <= y ? x : y;
-    }
+   
 }
-
-    }
+   
   
-    function stake(uint _amount) external updateReward(msg.sender) {
-        require(_amount > 0, "amount = 0");
-        stakingToken.transferFrom(msg.sender, address(this), _amount);
-        balanceOf[msg.sender] += _amount;
-        totalSupply += _amount;
-    }
-    function withdraw(uint _amount) external updateReward(msg.sender) {
-        require(_amount > 0, "amount = 0");
-        balanceOf[msg.sender] -= _amount;
-        totalSupply -= _amount;
-        stakingToken.transfer(msg.sender, _amount);
+    
+
+  
+   
     
 
 
 
-}
