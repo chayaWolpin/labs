@@ -5,14 +5,14 @@ import "forge-std/Test.sol";
 import "forge-std/console.sol";
 import "@hack/staking/staking.sol";
 
-// contract StakingTest is Test {
-//     staking public s;
-//     address public myUser = vm.addr(1);
+contract StakingRewardsTest is Test {
+    // StakingRewards public s;
+    // address public user = vm.addr(1);
 
-//     function setUp() public {
-//         vm.startPrank(myUser);
-//         s = new staking();
-//         vm.deal(myUser, 200);
+    // function setUp() public {
+    //     vm.startPrank(user);
+    //     s = new StakingRewards();
+    //     vm.deal(myUser, 200);
         
-//     }
-// }
+    // }
+}

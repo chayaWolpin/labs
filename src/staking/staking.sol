@@ -14,11 +14,12 @@ contract StakingRewards {
     uint public updateAt;
     uint public rewardRate;
     uint public immutable duration = 7;
+    
 
     mapping(address => uint) public deposits;
     uint public totalSupply;
     mapping (address => uint) public startDate;
-
+    mapping (address => uint) public tokens_in_pool;
     mapping (address=> uint)public rewards;
 
     constructor(address _stakingToken) {
@@ -41,6 +42,7 @@ contract StakingRewards {
         totalSupply += _amount;
         uint256 precentOfDeposit=_amount*100/totalSupply;
         deposits[msg.sender]+=precentOfDeposit; 
+        tokens_in_pool[msg.sender]+= _amount;
         startDate[msg.sender]=block.timestamp;
         rewardsToken. mint(msg.sender,_amount);
         // StakingRewards.getReward(_amount);
@@ -56,7 +58,7 @@ contract StakingRewards {
 
 
     function withdraw(uint amountRewardToken) external onlyOwner isEnoughDays{
-        require(deposits[msg.sender]>=amountRewardToken,"you dont have enough tokens to withdraw");
+        require(tokens_in_pool[msg.sender]>=amountRewardToken,"you dont have enough tokens to withdraw");
         require(amountRewardToken> 0, "amount = 0");
         uint finalRewards=deposits[msg.sender]/rewards[msg.sender]*amountRewardToken*totalSupply;
         deposits[msg.sender]-=amountRewardToken;
