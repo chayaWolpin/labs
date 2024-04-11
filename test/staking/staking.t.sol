@@ -6,13 +6,13 @@ import "forge-std/console.sol";
 import "@hack/staking/staking.sol";
 
 contract StakingRewardsTest is Test {
-    // StakingRewards public s;
-    // address public user = vm.addr(1);
+    StakingRewards public s;
+    address public user = vm.addr(1);
 
-    // function setUp() public {
-    //     vm.startPrank(user);
-    //     s = new StakingRewards();
-    //     vm.deal(myUser, 200);
+    function setUp() public {
+        vm.startPrank(user);
+        s = new StakingRewards();
+        vm.deal(myUser, 200);
         
-    // }
+    }
 }

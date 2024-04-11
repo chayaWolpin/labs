@@ -14,6 +14,7 @@ contract StakingRewards {
     uint public updateAt;
     uint public rewardRate;
     uint public immutable duration = 7;
+    uint public immutable WAD = 10**18;
     
 
     mapping(address => uint) public deposits;
@@ -38,6 +39,7 @@ contract StakingRewards {
 
     function deposit(uint256 _amount) external {
         require(_amount>0,"amount=0"); 
+        _amount = _amount*WAD;
         stakingToken.transferFrom(msg.sender,address(this),_amount);
         totalSupply += _amount;
         uint256 precentOfDeposit=_amount*100/totalSupply;
