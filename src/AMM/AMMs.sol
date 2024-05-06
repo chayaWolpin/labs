@@ -51,7 +51,7 @@ contract AMMs{
         B.transferFrom(msg.sender,address(this),amount);
         amountB+=amount;
         uint AA=amountA;
-        amountA = totalSupply/amountB;
+        amountA = totalSuplly/amountB;
          valueB=price(amountA,amountB);
         
         // balanceB=price(amountB,firstB);
@@ -65,7 +65,7 @@ contract AMMs{
        B.transferFrom(msg.sender,address(this),putLiquidityB);
        amountA=amountA+putLiquidityA;
        amountB=amountB+putLiquidityB;
-       totalSupply=amountA*amountB;
+       totalSuplly=amountA*amountB;
     }
-    
+
 }
