@@ -6,7 +6,7 @@ pragma solidity ^0.8.20;
 contract AMMs{
     IERC20 public immutable A;
     IERC20 public immutable B;
-    uint private totalSuplly;
+    uint private totalSupply;
     uint private amountA;
     uint private balanceA;
     uint private amountB;
@@ -22,7 +22,7 @@ contract AMMs{
         // balanceB=Bb;
        valueB= amountA/amountB;//value of each B token 
         valueA=1;//value of each A token
-        totalSuplly=Aa*Bb;
+        totalSupply=Aa*Bb;
         A =IERC20(_A);
         B =IERC20(_B);
     }
@@ -38,7 +38,7 @@ contract AMMs{
         A.transferFrom(msg.sender,address(this),amount);
         amountA+=amount;
         uint BB=amountB;
-        amountB = totalSuplly/amountA;
+        amountB = totalSupply/amountA;
 
         valueB=price(amountA,amountB);
         // balanceA=price(amountA,firstA);
@@ -51,7 +51,7 @@ contract AMMs{
         B.transferFrom(msg.sender,address(this),amount);
         amountB+=amount;
         uint AA=amountA;
-        amountA = totalSuplly/amountB;
+        amountA = totalSupply/amountB;
          valueB=price(amountA,amountB);
         
         // balanceB=price(amountB,firstB);
@@ -65,7 +65,7 @@ contract AMMs{
        B.transferFrom(msg.sender,address(this),putLiquidityB);
        amountA=amountA+putLiquidityA;
        amountB=amountB+putLiquidityB;
-       totalSuplly=amountA*amountB;
+       totalSupply=amountA*amountB;
     }
 
 }
