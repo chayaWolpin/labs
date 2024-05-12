@@ -9,7 +9,6 @@
 //     StakingRewards public s;
 //     MyToken public token;
 //     address public user = vm.addr(1);
-    
 
 //    function setUp() public {
 //         token=new MyToken();
@@ -34,6 +33,6 @@
 
 //      }
 //      function testWithdrawNotEnoughDays(){
-        
+
 //      }
 // }

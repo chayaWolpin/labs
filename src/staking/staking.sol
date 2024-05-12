@@ -16,7 +16,6 @@
 
 //     uint public immutable duration = 7;
 //     uint public immutable WAD = 10**18;
-    
 
 //     mapping(address => uint) public deposits;
 //     uint public totalSupply;    uint public startAt;
@@ -28,7 +27,7 @@
 //     constructor(address _stakingToken) {
 //         owner = msg.sender;
 //         rewardsToken= new MyToken(_stakingToken);
-    
+
 //     }
 //     modifier onlyOwner() {
 //         require(msg.sender == owner, "not authorized");
@@ -39,12 +38,12 @@
 //     // }
 
 //     function deposit(uint256 _amount) external {
-//         require(_amount>0,"amount=0"); 
+//         require(_amount>0,"amount=0");
 //         _amount = _amount*WAD;
 //        rewardsToken.transferFrom(msg.sender,address(this),_amount);
 //         totalSupply += _amount;
 //         uint256 precentOfDeposit=_amount/totalSupply;
-//         deposits[msg.sender]+=precentOfDeposit; 
+//         deposits[msg.sender]+=precentOfDeposit;
 //         tokens_in_pool[msg.sender]+= _amount;
 //         startDate[msg.sender]=block.timestamp;
 //         rewardsToken. mint(msg.sender,_amount);
@@ -52,13 +51,11 @@
 
 //     }
 
-   
 //     modifier isEnoughDays(){
 //         uint today=block.timestamp;
 //         require(today-startDate[msg.sender]>=duration,"the reward duration is not finished yet");
 //         _;
 //     }
-
 
 //     function withdraw(uint amountRewardToken) external onlyOwner isEnoughDays{
 //         require(tokens_in_pool[msg.sender]>=amountRewardToken,"you dont have enough tokens to withdraw");
@@ -68,16 +65,7 @@
 //         stakingToken.transferFrom(address(this),msg.sender,finalRewards);
 //         totalSupply-=finalRewards;
 //     }
-   
+
 // }
-   
-  
-    
-
-  
-   
-    
-
 
 //     uint public startAt;
-

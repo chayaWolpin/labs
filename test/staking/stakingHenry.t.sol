@@ -63,9 +63,4 @@
 //         sr=new StakingRewards(address(stakingToken),address(rewardsToken));
 //      }
 
-
 // }
-
-
-
-
