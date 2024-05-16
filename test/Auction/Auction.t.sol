@@ -50,12 +50,16 @@ contract AuctionTest is Test {
         uint256 sum2 = 300;
         address user1 = vm.addr(1234);
         address user2 = vm.addr(123);
-        a.setBidders(user1, sum1);
-        a.setBidders(user2, sum2);
+        vm.startPrank(user1);
+        a.addBid(sum1);
+        vm.stopPrank();
+        vm.startPrank(user2);
+        a.addBid(sum2);
+        vm.stopPrank();
         vm.startPrank(user1);
         vm.warp(2 days);
         a.removeOffer();
-        assertEq(a.bidders(user1),0);
+        assertEq(a.bidders(user1), 0);
         vm.stopPrank();
     }
 
