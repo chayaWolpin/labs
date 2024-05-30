@@ -4,8 +4,8 @@ pragma solidity ^0.8.20;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../../new-project/src/MyToken.sol";
 
-contract Lending {
-    MyToken public immutable _token;
+contract newLending {
+    MyToken public immutable bDai;
     MyToken public immutable Dai;
     mapping(address => uint256) public borrowers;
     mapping(address => uint256) public collaterals;
@@ -18,8 +18,8 @@ contract Lending {
     constructor(address tok, uint256 rate) {
         address owner = msg.sender;
         Dai = MyToken(0x6B175474E89094C44Da98b954EedeAC495271d0F);
-        _token = MyToken(tok);
-        ratePerWeek = rate;
+        bDai = MyToken(tok);
+        // ratePerWeek = rate;
     }
 
     function deposit(uint256 amount) public {
@@ -28,7 +28,7 @@ contract Lending {
             "You have already deposited Dai. withdraw your Dai before depositing more Dai."
         );
         Dai.transferFrom(msg.sender, address(this), amount);
-        _token.mint(msg.sender, amount);
+        bDai.mint(msg.sender, amount);
         depositTime[msg.sender] = block.timestamp;
         deposits[msg.sender] = amount;
     }
