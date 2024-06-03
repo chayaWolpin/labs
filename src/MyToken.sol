@@ -6,13 +6,13 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Permit.sol";
 
 contract MyToken is ERC20, ERC20Permit {
-    constructor() ERC20("MyToken", "MTK") ERC20Permit("MyToken") {
-        
+    constructor() ERC20("MyToken", "MTK") ERC20Permit("MyToken") {}
+
+    function mint(address add, uint256 amount) external {
+        _mint(add, amount);
     }
-    function mint (address add, uint amount) external {
-        _mint(add,amount);
+
+    function burn(address account, uint256 value) external {
+        _burn(account, value);
     }
-         function burn(address account, uint256 value) external {
-          _burn(account,value);
-        }
 }
