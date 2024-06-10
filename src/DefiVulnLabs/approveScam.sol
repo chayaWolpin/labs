@@ -1,25 +1,26 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
+
 import "forge-std/Test.sol";
-contract ContractTest is Test{
+
+contract ContractTest is Test {
     ERC20 ERC20Contract;
-    address alice=vm.addr(1);
-    address bob=vm.addr(2);
-    function testApproveScam ()public{
-        ERC20Contract=new ERC20();
+    address alice = vm.addr(1);
+    address bob = vm.addr(2);
+
+    function testApproveScam() public {
+        ERC20Contract = new ERC20();
         ERC20Contract.mint(1000);
         ERC20Contract.transfer(alice, 1000);
         vm.prank(alice);
         ERC20Contract.approve(address(bob), type(uint256).max);
-        console.log("Before:",ERC20Contract.balanceOf(bob));
+        console.log("Before:", ERC20Contract.balanceOf(bob));
         console.log("Due to Alice granted transfer permission to Bob, now Bob can move funds from Alice");
         vm.prank(bob);
         ERC20Contract.transferFrom(address(alice), address(bob), 1000);
-        console.log("after:",
-        ERC20Contract.balanceOf(bob));
+        console.log("after:", ERC20Contract.balanceOf(bob));
         console.log("completed");
     }
-
 }
 
 interface IERC20 {
@@ -63,13 +64,13 @@ contract ERC20 is IERC20 {
         return true;
     }
 
-    function mint(uint amount) external {
+    function mint(uint256 amount) external {
         balanceOf[msg.sender] += amount;
         totalSupply += amount;
         emit Transfer(address(0), msg.sender, amount);
     }
 
-    function burn(uint amount) external {
+    function burn(uint256 amount) external {
         balanceOf[msg.sender] -= amount;
         totalSupply -= amount;
         emit Transfer(msg.sender, address(0), amount);

@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.5.11;
-contract Seaport{
-   function _name() public pure returns (string memory) {
+
+contract Seaport {
+    function _name() public pure returns (string memory) {
         // Return the name of the contract.
         assembly {
             mstore(0x20, 0x20)
