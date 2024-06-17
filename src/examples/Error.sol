@@ -20,12 +20,10 @@ contract Error {
 
     error errorBalance(uint256 balance, uint256 withdrawAmount);
 
-     function testCustomError(uint256 _withdrawAmount) public view {
+    function testCustomError(uint256 _withdrawAmount) public view {
         uint256 _balance = address(this).balance;
-        if (_balance<_withdrawAmount) {
+        if (_balance < _withdrawAmount) {
             revert errorBalance({balance: _balance, withdrawAmount: _withdrawAmount});
         }
     }
-
-   
 }
